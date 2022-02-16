@@ -4,8 +4,7 @@ module.exports = {
     es2021: true,
   },
   plugins: ['prettier'],
-  extends: ['airbnb-base', 'eslint:recommended', 'plugin:prettier/recommended'],
-  parser: 'babel-eslint',
+  extends: ['react-app', 'airbnb-base', 'eslint:recommended', 'plugin:prettier/recommended'],
   parserOptions: {
     ecmaVersion: 13,
     sourceType: 'module',
@@ -28,7 +27,6 @@ module.exports = {
     'no-console': 'off',
     'no-plusplus': 'off',
     'max-depth': ['error', 2],
-    'max-lines-per-function': ['error', 15],
     'no-restricted-syntax': 'off',
     'no-continue': 'off',
     'no-alert': 'off',
