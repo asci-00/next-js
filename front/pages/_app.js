@@ -1,5 +1,6 @@
 import 'antd/dist/antd.css';
 import Head from 'next/head';
+import wrapper from 'store';
 
 const App = ({ Component }) => {
   return (
@@ -12,5 +13,5 @@ const App = ({ Component }) => {
   );
 };
 
-export default App;
+export default wrapper.withRedux(App);
 // Web App에 공통적으로 적용될 코드
