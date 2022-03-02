@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@layouts/*": ["layouts/*"],
+      "@reducers/*": ["reducers/*"],
+      "@actions/*": ["actions/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
