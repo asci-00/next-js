@@ -1,8 +1,6 @@
-const initialize = {};
+import auth from '@reducers/auth.js';
+import { combineReducers } from 'redux';
 
-export default (state = initialize, action) => {
-  switch (action.type) {
-    default:
-      return { ...state };
-  }
-};
+export default combineReducers({
+  auth,
+});
