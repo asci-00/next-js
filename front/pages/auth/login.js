@@ -1,28 +1,21 @@
+import { login } from '@actions/index';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import AppLayout from '@layouts/AppLayout';
-import { Button, Checkbox, Form, Input } from 'antd';
+import AuthLayout from '@layouts/AuthLayout';
+import { Button, Checkbox, Form, Input, Space } from 'antd';
 import useInput from 'hooks/useInput';
-import { useCallback } from 'react';
-import styled from 'styled-components';
-
-const StyledForm = styled(Form)`
-  width: 700px;
-  margin: 10px auto;
-  background: #eee;
-  padding: 30px;
-`;
+import Link from 'next/link';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
   const [name, setName] = useInput('');
   const [password, setPassword] = useInput('');
 
-  const onFinish = useCallback((values) => {
-    console.log('Received values of form: ', values);
-  }, []);
+  const dispatch = useDispatch();
+  const onLogin = () => dispatch(login({ name, password }));
 
   return (
-    <AppLayout>
-      <StyledForm name="normal_login" className="login-form" initialValues={{ remember: true }} onFinish={onFinish}>
+    <AuthLayout title="Login">
+      <Form name="normal_login" initialValues={{ remember: true }} onFinish={onLogin}>
         <Form.Item
           name="username"
           rules={[
@@ -66,16 +59,18 @@ const Login = () => {
           </a>
         </Form.Item>
 
-        <Form.Item>
+        <Space size={10}>
           <Button type="primary" htmlType="submit">
             Log in
           </Button>
-          <Button type="secondary" htmlType="button">
-            Sign up
-          </Button>
-        </Form.Item>
-      </StyledForm>
-    </AppLayout>
+          <Link href="/auth/signup">
+            <Button type="secondary" htmlType="button">
+              Sign up
+            </Button>
+          </Link>
+        </Space>
+      </Form>
+    </AuthLayout>
   );
 };
 

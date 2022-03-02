@@ -1,10 +1,6 @@
-import AppLayout from '../components/AppLayout';
+import AppLayout from '@layouts/AppLayout';
 
 const Profile = () => {
-  return (
-    <AppLayout>
-      <div>Hello Profile</div>
-    </AppLayout>
-  );
+  return <AppLayout></AppLayout>;
 };
 export default Profile;
