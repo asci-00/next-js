@@ -1,60 +1,22 @@
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import AppLayout from '@layouts/AppLayout';
-import { Avatar, Card, Layout, Space } from 'antd';
+import { Avatar, Card, Layout, Skeleton, Space } from 'antd';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { StyledPoster, StyledSider, StyledContent } from '../styles';
+import { requestPost } from '../dummy/data';
 
 const { Meta } = Card;
-const { Sider, Content } = Layout;
 
-const StyledSider = styled(Sider)`
-  background: rgba(0, 0, 0, 0);
-`;
-
-const StyledContent = styled(Content)`
-  padding: 10px 0;
-  background: #ddd;
-`;
-
-const StyledPoster = styled(Card)`
-  width: 700px;
-  margin: 10px auto;
-`;
-
-const dummyData = [
-  {
-    title: 'Poster',
-    content: '',
-    user: '',
-    date: '2022-01-22 14:22',
-    comment: [],
-  },
-  {
-    title: 'Poster',
-    content: '',
-    user: '',
-    date: '2022-01-23 15:27',
-    comment: [],
-  },
-  {
-    title: 'Poster',
-    content: '',
-    user: '',
-    date: '2022-01-27 12:02',
-    comment: [],
-  },
-  {
-    title: 'Poster',
-    content: '',
-    user: '',
-    date: '2022-01-28 10:12',
-    comment: [],
-  },
-];
-
-const Home = () => {
+function Home() {
   const auth = useSelector((state) => state.auth);
   const { name, introduction } = useSelector((state) => state.auth);
+
+  const [posters, setPosters] = useState(null);
+
+  useEffect(() => {
+    requestPost().then((res) => setPosters(res));
+  }, []);
 
   return (
     <AppLayout>
@@ -83,14 +45,22 @@ const Home = () => {
         </Space>
       </StyledSider>
       <StyledContent width="700">
-        {dummyData.map((poster) => (
-          <StyledPoster title={poster.title} extra={poster.date} key={poster.title + poster.date}>
-            {poster.content}
-            {poster.user}
-          </StyledPoster>
-        ))}
+        {posters ? (
+          posters.map((poster) => (
+            <StyledPoster title={poster.title} extra={poster.date} key={poster.title + poster.date}>
+              {poster.content}
+              {poster.user}
+            </StyledPoster>
+          ))
+        ) : (
+          <Skeleton loading active>
+            <StyledPoster title="skeleton" extra="skeleton">
+              "skeleton" "skeleton"
+            </StyledPoster>
+          </Skeleton>
+        )}
       </StyledContent>
     </AppLayout>
   );
-};
+}
 export default Home;
