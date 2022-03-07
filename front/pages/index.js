@@ -3,15 +3,16 @@ import AppLayout from '@layouts/AppLayout';
 import { Avatar, Card, Layout, Skeleton, Space } from 'antd';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { StyledPoster, StyledSider, StyledContent } from '../styles';
+import Poster from '@components/Poster';
+import { StyledPoster, StyledSider } from '../styles';
 import { requestPost } from '../dummy/data';
 
 const { Meta } = Card;
 
-function Home() {
-  const auth = useSelector((state) => state.auth);
-  const { name, introduction } = useSelector((state) => state.auth);
+const { Content } = Layout;
 
+function Home() {
+  const { name, introduction } = useSelector((state) => state.auth);
   const [posters, setPosters] = useState(null);
 
   useEffect(() => {
@@ -44,22 +45,17 @@ function Home() {
           </Card>
         </Space>
       </StyledSider>
-      <StyledContent width="700">
+      <Content width={700}>
         {posters ? (
-          posters.map((poster) => (
-            <StyledPoster title={poster.title} extra={poster.date} key={poster.title + poster.date}>
-              {poster.content}
-              {poster.user}
-            </StyledPoster>
-          ))
+          posters.map((poster) => <Poster key={poster.id} {...poster} />)
         ) : (
           <Skeleton loading active>
             <StyledPoster title="skeleton" extra="skeleton">
-              "skeleton" "skeleton"
+              skeleton
             </StyledPoster>
           </Skeleton>
         )}
-      </StyledContent>
+      </Content>
     </AppLayout>
   );
 }
