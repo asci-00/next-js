@@ -7,14 +7,13 @@ export const StyledSider = styled(Sider)`
   background: rgba(0, 0, 0, 0);
 `;
 
-export const StyledContent = styled(Content)`
-  padding: 10px 0;
-  background: #ddd;
-`;
-
-export const StyledPoster = styled(Card)`
+export const StyledPost = styled.div`
   width: 700px;
-  margin: 10px auto;
+  margin: 0 auto;
+  &:not(:first-of-type) {
+    margin-top: 10px;
+  }
+  border: 1px solid white;
 `;
 
 export const StyledFooter = styled(Footer)`
@@ -22,6 +21,7 @@ export const StyledFooter = styled(Footer)`
   min-height: 200px;
   line-height: 200px;
   vertical-align: middle;
+  background: #ddd;
   text-align: center;
 `;
 
@@ -45,4 +45,9 @@ export const StyledCard = styled(Card)`
   background: #eee;
   padding: 30px;
   width: 700px;
+`;
+
+export const StyledCommentBox = styled.div`
+  background: #fff;
+  padding: 10px;
 `;

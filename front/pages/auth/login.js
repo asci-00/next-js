@@ -1,17 +1,21 @@
-import { login } from '@actions/index';
+import { LOGIN_REQUEST } from '@actions/index';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import AuthLayout from '@layouts/AuthLayout';
 import { Button, Checkbox, Form, Input, Space } from 'antd';
 import useInput from 'hooks/useInput';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-const Login = () => {
-  const [name, setName] = useInput('');
+function Login() {
+  const [id, setId] = useInput('');
   const [password, setPassword] = useInput('');
-
+  const { commentLoading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
-  const onLogin = () => dispatch(login({ name, password }));
+  const onLogin = () =>
+    dispatch({
+      type: LOGIN_REQUEST,
+      data: { id, password },
+    });
 
   return (
     <AuthLayout title="Login">
@@ -28,8 +32,8 @@ const Login = () => {
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="Username"
-            value={name}
-            onChange={setName}
+            value={id}
+            onChange={setId}
           />
         </Form.Item>
         <Form.Item
@@ -60,11 +64,11 @@ const Login = () => {
         </Form.Item>
 
         <Space size={10}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={commentLoading}>
             Log in
           </Button>
           <Link href="/auth/signup">
-            <Button type="secondary" htmlType="button">
+            <Button type="secondary" htmlType="button" loading={commentLoading}>
               Sign up
             </Button>
           </Link>
@@ -72,6 +76,6 @@ const Login = () => {
       </Form>
     </AuthLayout>
   );
-};
+}
 
 export default Login;

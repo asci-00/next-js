@@ -1,14 +1,24 @@
 import { CommentOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { Badge, Button, Popover, Card } from 'antd';
 import { useState } from 'react';
-import { StyledPoster } from '../../styles';
+import { useDispatch } from 'react-redux';
+import { REMOVE_POST_REQUEST } from '@actions/index';
+import { StyledPost } from '../../styles';
 import CustomComment from './Commnet';
 
-export default function Post({ title, date, content, name, comments }) {
-  const [comment, setComment] = useState(null);
+export default function Post({ title, date, content, name, id, comments }) {
   const [commentVisible, setCommentVisible] = useState(false);
+  const dispatch = useDispatch();
+
+  const deletePost = () => {
+    dispatch({
+      type: REMOVE_POST_REQUEST,
+      id,
+    });
+  };
+
   return (
-    <StyledPoster>
+    <StyledPost>
       <Card
         title={title}
         extra={
@@ -26,7 +36,7 @@ export default function Post({ title, date, content, name, comments }) {
             content={
               <Button.Group>
                 <Button>수정</Button>
-                <Button>삭제</Button>
+                <Button onClick={deletePost}>삭제</Button>
               </Button.Group>
             }
           >
@@ -36,7 +46,7 @@ export default function Post({ title, date, content, name, comments }) {
       >
         {content}
       </Card>
-      <CustomComment comments={comments} visible={commentVisible} />
-    </StyledPoster>
+      <CustomComment postId={id} comments={comments} visible={commentVisible} />
+    </StyledPost>
   );
 }

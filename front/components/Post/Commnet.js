@@ -1,33 +1,31 @@
-import { Avatar, Button, Comment, Form, Input } from 'antd';
-import { useSelector } from 'react-redux';
-import { useCallback, useRef, useState } from 'react';
+import { Avatar, Comment } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { ADD_COMMENT_REQUEST } from '@actions/index';
+import { useCallback } from 'react';
 import { StyledCommentBox } from '../../styles';
-import useInput from '../../hooks/useInput';
 import Editor from './Editor';
 
-const { TextArea } = Input;
+export default function CustomComment({ comments = [], postId, visible }) {
+  const { id, name } = useSelector((state) => state.auth);
+  const { commentLoading } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
 
-const dummyComment = [
-  {
-    id: 0,
-    postId: 0,
-    name: 'user1',
-    date: 'datetime',
-    content: 'test comment',
-    children: [],
-  },
-];
-
-export default function CustomComment({ comments = dummyComment, postId, visible }) {
-  const { name, id } = useSelector((state) => state.auth);
-  const [loading, setLoading] = useState(false);
-  const [commentContent, setCommentContent] = useInput(null);
-
-  const onSubmit = (text) => {
-    setLoading(true);
-    setTimeout(() => setLoading(false), 2000);
-    setCommentContent(text);
-  };
+  const onSubmit = useCallback(
+    (text) => {
+      dispatch({
+        type: ADD_COMMENT_REQUEST,
+        data: {
+          id: Math.floor(Math.random(100) * 10),
+          name,
+          postId,
+          userId: id,
+          date: Date(),
+          content: text,
+        },
+      });
+    },
+    [name, postId]
+  );
 
   const Comments = ({ items }) =>
     items.map((comment) => (
@@ -48,7 +46,7 @@ export default function CustomComment({ comments = dummyComment, postId, visible
         {comments && <Comments items={comments} />}
         <Comment
           avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
-          content={<Editor onSubmit={onSubmit} loading={loading} defaultText={commentContent} />}
+          content={<Editor onSubmit={onSubmit} loading={commentLoading} />}
         />
       </StyledCommentBox>
     )

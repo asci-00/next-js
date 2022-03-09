@@ -1,10 +1,14 @@
 import { Button, Form, Input } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const { TextArea } = Input;
 
 export default function Editor({ onChange = () => {}, onSubmit = () => {}, loading, defaultText = '' }) {
   const [text, setText] = useState(defaultText);
+
+  useEffect(() => {
+    setText('');
+  }, [loading]);
 
   const onTextChange = (e) => {
     setText(() => {
@@ -13,13 +17,15 @@ export default function Editor({ onChange = () => {}, onSubmit = () => {}, loadi
     });
   };
 
+  const onClick = () => onSubmit(text);
+
   return (
     <>
       <Form.Item>
         <TextArea rows={4} onChange={onTextChange} value={text} />
       </Form.Item>
       <Form.Item>
-        <Button htmlType="submit" loading={loading} onClick={onSubmit} type="primary">
+        <Button htmlType="submit" loading={loading} onClick={onClick} type="primary">
           Add Comment
         </Button>
       </Form.Item>

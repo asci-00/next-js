@@ -1,23 +1,26 @@
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import AppLayout from '@layouts/AppLayout';
 import { Avatar, Card, Layout, Skeleton, Space } from 'antd';
-import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import Poster from '@components/Poster';
-import { StyledPoster, StyledSider } from '../styles';
-import { requestPost } from '../dummy/data';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import Post from '@components/Post';
+import { SET_POSTS_REQUEST } from '@actions/index';
+import { StyledPost, StyledSider } from '../styles';
 
 const { Meta } = Card;
-
 const { Content } = Layout;
 
 function Home() {
   const { name, introduction } = useSelector((state) => state.auth);
-  const [posters, setPosters] = useState(null);
+  const { postLoading, requestError, posts } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    requestPost().then((res) => setPosters(res));
+    dispatch({ type: SET_POSTS_REQUEST });
   }, []);
+
+  if (postLoading) return <div>Post Loading</div>;
+  if (requestError) return <div>API call error</div>;
 
   return (
     <AppLayout>
@@ -46,13 +49,13 @@ function Home() {
         </Space>
       </StyledSider>
       <Content width={700}>
-        {posters ? (
-          posters.map((poster) => <Poster key={poster.id} {...poster} />)
+        {posts ? (
+          posts.map((post) => <Post key={post.id} {...post} />)
         ) : (
           <Skeleton loading active>
-            <StyledPoster title="skeleton" extra="skeleton">
+            <StyledPost title="skeleton" extra="skeleton">
               skeleton
-            </StyledPoster>
+            </StyledPost>
           </Skeleton>
         )}
       </Content>
