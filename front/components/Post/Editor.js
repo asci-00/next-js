@@ -3,7 +3,13 @@ import { useEffect, useState } from 'react';
 
 const { TextArea } = Input;
 
-export default function Editor({ onChange = () => {}, onSubmit = () => {}, loading, defaultText = '' }) {
+export default function Editor({
+  onChange = () => {},
+  onSubmit = () => {},
+  loading,
+  defaultText = '',
+  required = true,
+}) {
   const [text, setText] = useState(defaultText);
 
   useEffect(() => {
@@ -21,7 +27,15 @@ export default function Editor({ onChange = () => {}, onSubmit = () => {}, loadi
 
   return (
     <>
-      <Form.Item>
+      <Form.Item
+        name="textarea"
+        rules={[
+          {
+            required,
+            message: 'Please input anything!',
+          },
+        ]}
+      >
         <TextArea rows={4} onChange={onTextChange} value={text} />
       </Form.Item>
       <Form.Item>
