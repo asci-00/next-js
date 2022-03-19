@@ -4,7 +4,7 @@
 ![NPM][npm-url]
 ![ESLINT][eslint-url]
 
-![img_2.png](https://hanamon.kr/wp-content/uploads/2021/01/%EB%85%B8%EB%93%9C.png)
+![img_2.png](https://i0.wp.com/hanamon.kr/wp-content/uploads/2021/01/%EB%85%B8%EB%93%9C.png?w=600&ssl=1)
 
 > Vue.js 공부용 Repository
 >
